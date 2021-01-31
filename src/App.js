@@ -44,7 +44,20 @@ const App = () => {
           <CircularProgress size={60} color="secondary" />
         </Box>
       ) : (
-        <Suspense fallback={<div>Loading</div>}>
+        <Suspense
+          fallback={
+            <Box
+              sx={{
+                marginTop: 8,
+                display: 'flex',
+                justifyContent: 'center',
+              }}
+            >
+              <CircularProgress size={60} />
+              <CircularProgress size={60} color="secondary" />
+            </Box>
+          }
+        >
           <Switch>
             <PublicRoute path="/" exact restricted redirectTo="/contacts">
               <RegisterForm />

@@ -15,6 +15,7 @@ const initialState = {
   registerError: null,
   logInPending: false,
   logInError: null,
+  logOutPending: false,
 };
 
 export const authSlice = createSlice({
@@ -49,10 +50,17 @@ export const authSlice = createSlice({
       state.logInPending = false;
       state.logInError = action.payload;
     },
-    [logOut.fulfilled](state, _) {
+    [logOut.pending](state) {
+      state.logOutPending = true;
+    },
+    [logOut.fulfilled](state) {
       state.user = { name: null, email: null };
       state.token = null;
       state.isLoggedIn = false;
+      state.logOutPending = false;
+    },
+    [logOut.rejected](state) {
+      state.logOutPending = false;
     },
     [fetchCurrentUser.pending](state) {
       state.isFetchingCurrentUser = true;
